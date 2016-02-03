@@ -28,6 +28,13 @@ else
     $targetBranch = [Environment]::GetEnvironmentVariable("DefaultGitPullRequestBranch","User")
 }
 
+# No target branch, try raising pull request to a matching branch name against the default repo
+if ($targetBranch -match "") 
+{
+    $remoteRepo = [Environment]::GetEnvironmentVariable("DefaultGitPullRequestRepo","User")
+    $targetBranch = $remoteRepo + ":" + $branch
+}
+
 # Create the pull request URL 
 If($targetBranch -notmatch $null)
 {
